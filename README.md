@@ -61,10 +61,90 @@
   ``` 
 
 
-> 8/30 까지 10강
+  #### 흐름제어와 논리 연산자
+ - 내부 반복문에서 조건을 체크하여 break를 하더라도 외부 반복문에서 또 다시 조건을 체크하여 모든 반복문을 수동으로 종료해야 한다.
+   - 코틀린에서는 외부 반복문에 레이블 이름과 @기호를 달면 레이블이 달린 반복문을 기준으로 즉시 break 시켜준다.
+```
+    for( i in 1..10 ) {
+      for( j in 1..10 ) {
+        // 내부 반복문
+        if ( i == 1 && j == 2 ) break
+      }
+      // 외부 반복문
+    }
+ 
+ ---------------->
+     loop@for( i in 1..10 ) {
+      for( j in 1..10 ) {
+        // 내부 반복문
+        if ( i == 1 && j == 2 ) break@loop
+      }
+      // 외부 반복문
+    }
+  ``` 
+  
+  #### 클래스의 기본 구조
+  
+  ```
+    fun main() {
+     var a = Person("이름1", 1990)
+     var b = Person("이름2", 1997)
+     var c = Person("이름3", 2004)
+     
+     a.introduce()
+     b.introduce()
+     c.introduce()
+     }
+     
+     class Person(var name:String, val birthYear:Int){
+       fun introduce() {
+         println("안녕하세요, ${birthYear}년생 ${name}입니다.")
+         }
+     }
+  ``` 
+  - 코틀린은 객체지향 언어를 기반으로 함수형 언어의 장점을 흡수한 실용적인 언어이다.
   
   
+ #### 클래스의 생성자
+ - 인스턴스 생성시 구문을 수행하는 기능을 넣을 수 없었다 >> init 함수를 통해 구현이 가능
+ - init함수는 패러미터나 반환형이 없는 특수한 함수. 생성자를 통해 인스턴스가 만들어질 때 호출되는 함수
+   ```
+    fun main() {
+     var a = Person("이름1", 1990)
+     var b = Person("이름2", 1997)
+     var c = Person("이름3", 2004)
+     }
+     
+     class Person(var name:String, val birthYear:Int){
+       init {
+         println("안녕하세요, ${this.birthYear}년생 ${this.name}입니다.")
+         }
+     }
+    ```   
   
-  
-  
+- 클래스를 만들 때 기본으로 선언(기본 생성자) + 필요에 따라 추가적으로 선언(보조 생성자)
+- 보조 생성자는 기본 생성자와 다른 형태의 생성자를 제공하여 인스턴스 생성 시 편의를 제공하거나 추가적인 구문을 수행하는 기능을 제공하는 역할
+- 보조 생성자를 만들 때는 반드시 기본 생성자를 통해 속성을 초기화 해주어야 한다.
+
+   ```
+    fun main() {
+     var a = Person("이름1", 1990)
+     var b = Person("이름2", 1997)
+     var c = Person("이름3", 2004)
+     var d = Person("이름4")  // 1997로 출력 (보조 생성자)
+     var e = Person("이름4")  // 1997로 출력 (보조 생성자)
+     var f = Person("이름4")  // 1997로 출력 (보조 생성자)
+     }
+     
+     class Person(var name:String, val birthYear:Int){
+       init {
+         println("안녕하세요, ${this.birthYear}년생 ${this.name}입니다.")
+         }
+       constructor(name:String) : this(name, 1997){
+         println("보조 생성자가 사용")
+       }
+     }
+  ```      
+#### 클래스의 상속
+  - 코틀린은 상속 거부가 기본 옵션
 
