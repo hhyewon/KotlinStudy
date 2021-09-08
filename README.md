@@ -333,3 +333,95 @@
  ```
 - 옵저버 패턴은 이벤트를 기반으로 동작하는 모든 코드에서 광범위하게 쓰는 코드이므로 구조를 이해하는 것이 중요하다.
  
+ 
+#### 클래스의 다형성
+
+- 다운 캐스팅에는 as와 is가 필요하다.
+- as는 변수를 호환되는 자료형으로 변환해주는 캐스팅 연산자로 코드 내에서 사용할 시 자료형을 즉시 변환하고 반환해준다.
+- is는 변수가 자료형에 호환되는지를 먼저 체크한 후 변환하는 캐스팅 연산자로 조건문 내에서 사용된다.
+ ```
+  fun main(){
+   var a = Drink()
+   a.drink()  // 음료를 마십니다.
+   
+   var b : Drink = Cola() // b는 Drink 타입의 변수이지만 콜라에 인스턴스를 담았으므로 콜라에서 오버라이드 된 함수가 실행된다.
+   b.drink()  // 음료 중에 콜라를 마십니다.
+   
+   //washDishes를 호출하기 위해서는 as나 is를 통해 다운 캐스팅을 해주어야 한다. 
+   if (b is Cola){
+     b.washDishes()
+   }
+   
+   var c = b as Cola
+   c.washDishes()
+   b.washDishes() //as를 사용하면 반환값 뿐만 아니라 변수 자체도 다운 캐스팅
+  }
+  open class Drink {
+    var name = "음료"
+    
+    open fun drink() {
+      println("${name}를 마십니다.")
+    }
+  }
+  
+  class Cola: Drink() {
+    var type = "콜라"
+    
+    override fun drink() {
+      println("${name}중에 ${type}를 마십니다")
+    }
+    
+    fun washDishes() {
+      println("${type}로 설거지를 합시다")
+    }
+ ```
+
+
+#### 캐스팅을 줄여주는 제너릭
+- 클래스나 함수에서 사용하는 자료형을 외부에서 지정할 수 있는 제너릭
+- 캐스팅 -> 프로그램의 속도를 저하시킨다.
+- 타입을 자동으로 추론
+
+
+#### 리스트
+ ```
+  fun main(){
+    val a = listOf("사과", "딸기", "배")
+    for(i in a)
+    {
+      print("${i}") // 리스트 모든 요소 출력
+    }
+    
+    var b = mutableListOf(6, 3, 1)
+    println(b) // [6, 3, 1]
+    b.add(4) //4 추가
+    println(b) // [6, 3, 1, 4]
+    
+    b.add(2,8) // 인덱스 2번 자리에 8 추가
+    println(b) // [6, 3, 8, 1, 4]
+    
+   
+    b.removeAt(1) //1번 요소 삭제
+    println(b) // [6, 8, 1, 4]
+    
+    b.shuffle()
+    println(b) // [1, 4, 6, 8]
+    
+    b.sort()
+    println(b)
+  }
+ ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
