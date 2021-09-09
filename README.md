@@ -413,6 +413,42 @@
  ```
 
 
+#### 문자열을 다루는 법
+ ```
+  fun main(){
+  
+    val test1 = "Test.Kotlin.String"
+    println(test1.toLowerCase()) // 소문자로 변횐
+    println(test1.toUpperCase()) // 대문자로 변환
+    
+    val test2 = test1.split(".") // .을 기준으로 나누기  // [Test, Kotlin, String]
+    
+    test2.joinToString() // 그냥 합쳐짐 //Test, Kotlin, String
+    test2.joinToString("-") // 그 문자열을 사이에 넣어줌 // Test-Kotlin-String
+    
+    test1.substring(5..10) // 그 부분만 출력 //Kotlin
+  }
+ ```
+ 
+ - .isNullOrEmpty() // 널이거나 Empty이면 true
+ - .isNullOrBlank() // 공백상태(blank)도 감지
+ - .startsWith("java") // java로 시작하는 문자열이 있으면 true
+ - .endsWith(".kr")
+ - .contains("lin") // 포함되면 true
+ 
+ 
+ 
+ #### null 값을 처리하는 방법? 동일한지를 확인하는 방법?
+ - ?. (null safe operator) // 참조연산자를 실행하기 전에 객체가 null인지 확인부터하고 객체가 null이면 뒤따라오는거 실행 x
+ - ?: (elvis operator) // 객체가 null이 아니라면 그대로 사용하지만 null이러면 연산자 우측의 객체로 대체
+ - !!. (non-null assertion operation) // 참조연산자를 사용할 때 null여부를 컴파일시 확인하지 않도록 하여 런타임시 널포인터에러가 나도록 방치
+ - null safe 연산자 (?.)는 스코프 함수와 사용하면 더욱 편리하다. // a?.run{ ~ } // 널체크에 if문 대신 사용
+ - 객체의 동일성 판단 (===)
+
+
+
+
+
 
 
 
