@@ -446,8 +446,33 @@
  - 객체의 동일성 판단 (===)
 
 
-
-
+#### 함수의 argument를 다루는 방법과 infix 함수
+ - 함수를 더 다양한 방법으로 사용할 수 있는 기능
+ - overloading: 같은 스코프 안에서 같은 함수의 이름을 여러 개 만들 수 있다. 
+ - 같은 자료형을 개수에 상관없이 패러미터로 받고 싶을 때 사용하는 vararg
+ ```
+  fun main(){
+    sum(1,2,3,4) // 10
+  }
+  
+  fun sum(vararg num: Int){
+    var sum = 0 
+    
+    for(n in num){ //vararg가 붙은 패러미터는 배열처럼 for문으로 참조할 수 있다
+      sum += n
+    }
+  }
+ ```
+ - 연산자처럼 쓸 수 있는 infix 함수
+ ```
+  fun main(){
+    println( 6 multiply 4 ) // 6은 this , 4는 x에 해당
+    // = println(6.multiply(4))
+  }
+  
+  // 적용할 클래스가 자기 자신이므로 클래스 이름은 쓰지 않는다.
+  infix fun Int.multiply(x: Int): Int = this * x // 자료형.이름
+ ```
 
 
 
