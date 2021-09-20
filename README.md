@@ -474,6 +474,49 @@
   infix fun Int.multiply(x: Int): Int = this * x // 자료형.이름
  ```
 
+#### 중첩클래스와 내부클래스
+- 중첩 클래스는 형태만 내부에 있을 뿐 실질적으로는 외부 클래스의 내용을 공유할 수 없다.
+ ```
+  class Outer{
+    class Nested{
+      //외부 클래스의 내용을 공유할 수 없음.  
+    }
+  }  //class Outer, class Outer.Nested 별개
+ ```
+- inner : 내부클래스
+- 혼자서 객체를 만들 수는 없고 외부 클래스에 객체가 있어야만 생성과 사용이 가능한 클래스
+- 내부 클래스는 외부클래스 객체안에서 사용되는 클래스이므로 외부 클래스의 속성과 함수의 사용이 가능하다.
+
+ ```
+    fun main(){
+      Outer.Nested().introduce()
+      
+      val outer = Outer()
+      val inner = outer.Inner()
+    }
+  
+    class Outer{
+      var test = "Outer Class"
+    class Nested{
+      fun introduce(){
+        println("Nested Class")
+      }
+    }
+    
+    inner class Inner {
+      var text = "Inner Class"
+      
+      fun introduceInner(){
+        println(text)
+      }
+      
+      fun introduceOuter(){ /OuterClass에 있는 text 속성을 출력하기
+        println(this@Outer.text) // Outer 클래스와 Inner 클래스에 같은 이름의 속성이나 함수가 있다면 this@Outer.text로 참조
+      } / 
+    }
+  
+ ```
+
 
 
 
