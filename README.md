@@ -489,10 +489,16 @@
 
  ```
     fun main(){
-      Outer.Nested().introduce()
+      Outer.Nested().introduce()   // Nested Class
       
       val outer = Outer()
       val inner = outer.Inner()
+      
+      inner.introduceInner()      // Inner Class
+      inner.introduceOuter()      // Outer Class
+      
+      outer.text = "Changed Outer Class"
+      inner.introduceOuter()      // Changed Outer Clas
     }
   
     class Outer{
@@ -516,14 +522,81 @@
     }
   
  ```
+- 중첩클래스와 내부클래스는 클래스 간의 연계성을 표현하여 코드의 가독성 및 작성 편의성이 올라갈 수 있으므로 적절한 상황에서 사용
 
+#### Data Class 와 Enum Class
+- Data Class: 데이터를 다루는 데에 최적화된 class로 5가지 기능을 내부적으로 자동으로 생성해준다.
+  - equals()의 자동구현: 내용의 동일성을 판단 
+  - hashcode()의 자동구현: 객체의 내용에서 고유한 코드를 생성
+  - toString()의 자동구현: 포함된 속성을 보기쉽게 나타냄
+  - copy()의 자동구현: 객체를 복사하여 똑같은 내용의 새 객체를 만듦
+    - 아무 패러미터가 없으면 똑같은 내용으로 생성함. 
+    - val a = Data("A", 7)
+    - val b = a.copy()  // 또는 val b = a.copy("B")
+  - componentX()의 자동구현: 속성을 순서대로 반환함
+    - Data("A", 7) // "A" --> **component1()**, 7 --> **component2()**
+    - 이 함수는 사용자가 직접 호출하기 위한 함수가 아닌 배열이나 리스트 등의 데이터 클래스에 객체가 담겨있을 때 이 내용을 자동으로 꺼내 쓸 수 있는 기능을 지원하기 위한 함수
 
+ ```
+    fun main(){
+      val a = General("A",212) // 일반 Class ==> 제대로 구현 X
+      println(a == General("A",212)) // 일반 Class ==> 제대로 구현 X
+      println(a.hashCode())  // 일반 Class ==> 제대로 구현 X
+      println(a)  // 일반 Class ==> 제대로 구현 X
+      
+      val b = Data("B", 306)
+      println(b ==  Data("B", 306))
+      println(b.hashCode())
+      println(b)
+      
+      println(b.copy())
+      println(b.copy("C"))
+      println(b.copy(id=618)
+    }
+    
+    class General(val name: String, val id: Int)
+    data class Data(val name: String, val id: Int)
+  
+ ```
 
+ ```
+    fun main(){
+      
+      val list = listOf(Data("A",212), Data("B", 306), Data("C", 618))
+      //이 리스트레 담긴 Data 객체의 내용을 for문에서 모두 순회하려면 두 개의 속성을 받을 수 있는 이름을 지정하여 in 앞에 써준다.
+      
+      for((a, b) in list){  // a --> component1(), b --> component2()
+        println("${a}, ${b}") //속성 모두 출력
+      }
+      
+    }
+    
+    class General(val name: String, val id: Int)
+    data class Data(val name: String, val id: Int)
+  
+ ```
 
-
-
-
-
+- Enum Class: 열거형의 준말
+```
+  enum class Color{
+    RED, BLUE, GREEN 
+  } // 여러 개를 선언
+  Color.RED  //하나의 상태 선택해서 나타냄
+```
+  - Enum Class는 관행적으로 상수를나타낼 때 사용하는 대문자로 기술
+  - 또한 enum의 객체들은 고유한 속성을 가질 수 있다.
+    - enum class에서 생성자를 만들어 속성을 받도록 하면 객체를 선언할 때 속성도 선언할 수 있다.
+  - 일반 클래스처럼 함수도 선언할 수 있다.
+    - 객체를 선언한 후 ;(새미콜론)을 추가하고 함수를 작성한다.
+```
+  enum class Color(val num:Int){
+    RED(1), 
+    BLUE(2), 
+    GREEN(3); //새미콜론 추가
+    
+    fun isRed() = this == Color.RED
+  } 
+```
 
 
 
